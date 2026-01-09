@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Stream Starting Soon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        background: radial-gradient(
+            circle at top,
+            #f5f5f5 0%,
+            #cfcfcf 35%,
+            #8f8f8f 65%,
+            #3a3a3a 100%
+        );
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+    }
+
+    /* Soft moving gradient overlay */
+    body::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            120deg,
+            rgba(255,255,255,0.15),
+            rgba(200,200,200,0.05),
+            rgba(255,255,255,0.15)
+        );
+        animation: drift 12s ease-in-out infinite;
+        mix-blend-mode: overlay;
+    }
+
+    @keyframes drift {
+        0% { transform: translateX(-20%); }
+        50% { transform: translateX(20%); }
+        100% { transform: translateX(-20%); }
+    }
+
+    .container {
+        position: relative;
+        text-align: center;
+        backdrop-filter: blur(14px);
+        padding: 60px 80px;
+        border-radius: 24px;
+        background: linear-gradient(
+            145deg,
+            rgba(255,255,255,0.20),
+            rgba(180,180,180,0.10),
+            rgba(255,255,255,0.18)
+        );
+        box-shadow:
+            0 30px 80px rgba(0,0,0,0.45),
+            inset 0 0 30px rgba(255,255,255,0.2);
+    }
+
+    h1 {
+        font-size: clamp(3rem, 6vw, 5rem);
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        background: linear-gradient(
+            180deg,
+            #ffffff,
+            #d9d9d9,
+            #bfbfbf
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        to {
+            text-shadow: 0 0 25px rgba(255,255,255,0.65);
+        }
+    }
+
+    .subtitle {
+        margin-top: 20px;
+        font-size: 1.1rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.75);
+    }
+
+    .dots::after {
+        content: '';
+        animation: dots 1.5s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+        0% { content: ''; }
+        25% { content: '.'; }
+        50% { content: '..'; }
+        75% { content: '...'; }
+        100% { content: ''; }
+    }
+
+    /* Ambient floating particles */
+    .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(255,255,255,0.6);
+        border-radius: 50%;
+        animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+        from {
+            transform: translateY(110vh);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(-10vh);
+            opacity: 1;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Stream Starting Soon</h1>
+    <div class="subtitle">Get Comfortable<span class="dots"></span></div>
+</div>
+
+<script>
+    // Floating ambient particles
+    for (let i = 0; i < 40; i++) {
+        const p = document.createElement("div");
+        p.className = "particle";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = 8 + Math.random() * 10 + "s";
+        p.style.opacity = Math.random();
+        document.body.appendChild(p);
+    }
+</script>
+
+</body>
+</html>
