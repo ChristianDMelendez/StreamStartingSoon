@@ -24,7 +24,7 @@ body {
     align-items: center;
 }
 
-/* cinematic back glow */
+/* ambient back glow */
 body::before {
     content: "";
     position: absolute;
@@ -48,7 +48,7 @@ body::before {
     text-align: center;
 }
 
-/* MAIN TEXT */
+/* MAIN TITLE */
 .title {
     position: relative;
     font-size: clamp(4.5rem, 8vw, 7rem);
@@ -65,13 +65,14 @@ body::before {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
-    /* readability nuclear option */
+    /* nuclear readability */
     -webkit-text-stroke: 3px #000000;
 
     text-shadow:
         0 6px 0 rgba(0,0,0,1),
         0 14px 25px rgba(0,0,0,0.95),
         0 0 45px rgba(255,255,255,0.35);
+    overflow: hidden;
 }
 
 /* fake extrusion */
@@ -85,6 +86,31 @@ body::before {
     opacity: 0.9;
 }
 
+/* SHINE / TWINKLE PASS */
+.title::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255,255,255,0.15) 35%,
+        rgba(255,255,255,0.9) 50%,
+        rgba(255,255,255,0.15) 65%,
+        transparent 100%
+    );
+    transform: translateX(-120%);
+    animation: shine 4.5s ease-in-out infinite;
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+@keyframes shine {
+    0%   { transform: translateX(-120%); }
+    40%  { transform: translateX(120%); }
+    100% { transform: translateX(120%); }
+}
+
 /* SUBTEXT */
 .sub {
     margin-top: 28px;
@@ -92,13 +118,13 @@ body::before {
     letter-spacing: 0.5em;
     text-transform: uppercase;
     color: #ffffff;
+    opacity: 0.85;
     text-shadow:
         0 2px 6px rgba(0,0,0,0.9),
         0 0 18px rgba(255,255,255,0.25);
-    opacity: 0.85;
 }
 
-/* subtle scanline motion */
+/* subtle scanlines */
 .scanlines {
     position: absolute;
     inset: 0;
@@ -115,7 +141,7 @@ body::before {
 
 @keyframes scan {
     from { background-position-y: 0; }
-    to { background-position-y: 100px; }
+    to   { background-position-y: 120px; }
 }
 </style>
 </head>
