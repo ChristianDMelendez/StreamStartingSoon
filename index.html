@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;800;900&display=swap');
 
 * {
     margin: 0;
@@ -17,111 +17,119 @@
 
 body {
     height: 100vh;
-    background: linear-gradient(
-        160deg,
-        #1a1a1a 0%,
-        #2b2b2b 35%,
-        #3a3a3a 60%,
-        #1f1f1f 100%
+    background: radial-gradient(
+        circle at center,
+        #2c2c2c 0%,
+        #161616 55%,
+        #0d0d0d 100%
     );
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    perspective: 1200px;
 }
 
-/* subtle moving light sweep */
-body::before {
+/* depth fog */
+body::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        120deg,
-        transparent 30%,
-        rgba(255,255,255,0.08) 50%,
-        transparent 70%
+    background: radial-gradient(
+        circle at center,
+        rgba(255,255,255,0.06),
+        transparent 60%
     );
-    animation: sweep 10s linear infinite;
+    pointer-events: none;
 }
 
-@keyframes sweep {
-    from { transform: translateX(-100%); }
-    to   { transform: translateX(100%); }
+/* 3D scene wrapper */
+.scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+    animation: slowRotate 20s ease-in-out infinite alternate;
 }
 
-.panel {
+@keyframes slowRotate {
+    from { transform: rotateX(4deg) rotateY(-6deg); }
+    to   { transform: rotateX(-4deg) rotateY(6deg); }
+}
+
+/* chrome text */
+.title {
     position: relative;
-    padding: 70px 100px;
-    border-radius: 26px;
-    background: linear-gradient(
-        145deg,
-        #e6e6e6,
-        #bdbdbd,
-        #f2f2f2
-    );
-    box-shadow:
-        0 40px 120px rgba(0,0,0,0.75),
-        inset 0 2px 12px rgba(255,255,255,0.6);
-    text-align: center;
-}
-
-h1 {
-    font-size: clamp(3.5rem, 6vw, 5.2rem);
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
     font-weight: 900;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
+    transform: translateZ(80px);
     background: linear-gradient(
         180deg,
         #ffffff,
-        #dcdcdc,
-        #bfbfbf
+        #cfcfcf,
+        #9a9a9a,
+        #f5f5f5
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow:
-        0 2px 4px rgba(0,0,0,0.5),
-        0 10px 25px rgba(0,0,0,0.6);
+        0 2px 3px rgba(0,0,0,0.6),
+        0 20px 60px rgba(0,0,0,0.8);
 }
 
-.sub {
-    margin-top: 22px;
-    font-size: 1.1rem;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: #2a2a2a;
-}
-
-.dots::after {
-    content: "";
-    animation: dots 1.4s steps(4, end) infinite;
-}
-
-@keyframes dots {
-    0%   { content: ""; }
-    25%  { content: "."; }
-    50%  { content: ".."; }
-    75%  { content: "..."; }
-    100% { content: ""; }
-}
-
-/* background particles */
-.particle {
+/* extruded fake depth */
+.title::before,
+.title::after {
+    content: attr(data-text);
     position: absolute;
-    width: 3px;
-    height: 3px;
-    background: rgba(255,255,255,0.25);
-    border-radius: 50%;
-    animation: float 14s linear infinite;
+    inset: 0;
+    z-index: -1;
+    color: rgba(0,0,0,0.4);
 }
 
-@keyframes float {
+.title::before {
+    transform: translateZ(-12px);
+    filter: blur(2px);
+}
+
+.title::after {
+    transform: translateZ(-25px);
+    filter: blur(6px);
+    opacity: 0.6;
+}
+
+/* sub text */
+.subtitle {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 1.05rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    transform: translateZ(30px);
+}
+
+/* floating metallic shards */
+.shard {
+    position: absolute;
+    width: 160px;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.5),
+        transparent
+    );
+    animation: drift 14s linear infinite;
+}
+
+@keyframes drift {
     from {
-        transform: translateY(110vh);
-        opacity: 0;
+        transform: translateX(-120vw) translateZ(-200px);
     }
     to {
-        transform: translateY(-10vh);
-        opacity: 1;
+        transform: translateX(120vw) translateZ(200px);
     }
 }
 </style>
@@ -129,19 +137,26 @@ h1 {
 
 <body>
 
-<div class="panel">
-    <h1>Stream Starting Soon</h1>
-    <div class="sub">Sit Tight<span class="dots"></span></div>
+<div class="scene">
+    <div>
+        <div class="title" data-text="Stream Starting Soon">
+            Stream Starting Soon
+        </div>
+        <div class="subtitle">
+            Lock In
+        </div>
+    </div>
 </div>
 
 <script>
-for (let i = 0; i < 50; i++) {
-    const p = document.createElement("div");
-    p.className = "particle";
-    p.style.left = Math.random() * 100 + "vw";
-    p.style.animationDuration = 8 + Math.random() * 12 + "s";
-    p.style.opacity = Math.random() * 0.6;
-    document.body.appendChild(p);
+/* metallic shards */
+for (let i = 0; i < 12; i++) {
+    const s = document.createElement("div");
+    s.className = "shard";
+    s.style.top = Math.random() * 100 + "vh";
+    s.style.animationDuration = 10 + Math.random() * 10 + "s";
+    s.style.opacity = Math.random();
+    document.body.appendChild(s);
 }
 </script>
 
