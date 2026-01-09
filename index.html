@@ -6,155 +6,143 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: 'Inter', sans-serif;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
 
-    body {
-        height: 100vh;
-        background: radial-gradient(
-            circle at top,
-            #f5f5f5 0%,
-            #cfcfcf 35%,
-            #8f8f8f 65%,
-            #3a3a3a 100%
-        );
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #ffffff;
-    }
+body {
+    height: 100vh;
+    background: linear-gradient(
+        160deg,
+        #1a1a1a 0%,
+        #2b2b2b 35%,
+        #3a3a3a 60%,
+        #1f1f1f 100%
+    );
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    /* Soft moving gradient overlay */
-    body::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-            120deg,
-            rgba(255,255,255,0.15),
-            rgba(200,200,200,0.05),
-            rgba(255,255,255,0.15)
-        );
-        animation: drift 12s ease-in-out infinite;
-        mix-blend-mode: overlay;
-    }
+/* subtle moving light sweep */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(255,255,255,0.08) 50%,
+        transparent 70%
+    );
+    animation: sweep 10s linear infinite;
+}
 
-    @keyframes drift {
-        0% { transform: translateX(-20%); }
-        50% { transform: translateX(20%); }
-        100% { transform: translateX(-20%); }
-    }
+@keyframes sweep {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(100%); }
+}
 
-    .container {
-        position: relative;
-        text-align: center;
-        backdrop-filter: blur(14px);
-        padding: 60px 80px;
-        border-radius: 24px;
-        background: linear-gradient(
-            145deg,
-            rgba(255,255,255,0.20),
-            rgba(180,180,180,0.10),
-            rgba(255,255,255,0.18)
-        );
-        box-shadow:
-            0 30px 80px rgba(0,0,0,0.45),
-            inset 0 0 30px rgba(255,255,255,0.2);
-    }
+.panel {
+    position: relative;
+    padding: 70px 100px;
+    border-radius: 26px;
+    background: linear-gradient(
+        145deg,
+        #e6e6e6,
+        #bdbdbd,
+        #f2f2f2
+    );
+    box-shadow:
+        0 40px 120px rgba(0,0,0,0.75),
+        inset 0 2px 12px rgba(255,255,255,0.6);
+    text-align: center;
+}
 
-    h1 {
-        font-size: clamp(3rem, 6vw, 5rem);
-        font-weight: 800;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        background: linear-gradient(
-            180deg,
-            #ffffff,
-            #d9d9d9,
-            #bfbfbf
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: glow 3s ease-in-out infinite alternate;
-    }
+h1 {
+    font-size: clamp(3.5rem, 6vw, 5.2rem);
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: linear-gradient(
+        180deg,
+        #ffffff,
+        #dcdcdc,
+        #bfbfbf
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+        0 2px 4px rgba(0,0,0,0.5),
+        0 10px 25px rgba(0,0,0,0.6);
+}
 
-    @keyframes glow {
-        from {
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-        to {
-            text-shadow: 0 0 25px rgba(255,255,255,0.65);
-        }
-    }
+.sub {
+    margin-top: 22px;
+    font-size: 1.1rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #2a2a2a;
+}
 
-    .subtitle {
-        margin-top: 20px;
-        font-size: 1.1rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: rgba(255,255,255,0.75);
-    }
+.dots::after {
+    content: "";
+    animation: dots 1.4s steps(4, end) infinite;
+}
 
-    .dots::after {
-        content: '';
-        animation: dots 1.5s steps(4, end) infinite;
-    }
+@keyframes dots {
+    0%   { content: ""; }
+    25%  { content: "."; }
+    50%  { content: ".."; }
+    75%  { content: "..."; }
+    100% { content: ""; }
+}
 
-    @keyframes dots {
-        0% { content: ''; }
-        25% { content: '.'; }
-        50% { content: '..'; }
-        75% { content: '...'; }
-        100% { content: ''; }
-    }
+/* background particles */
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 50%;
+    animation: float 14s linear infinite;
+}
 
-    /* Ambient floating particles */
-    .particle {
-        position: absolute;
-        width: 4px;
-        height: 4px;
-        background: rgba(255,255,255,0.6);
-        border-radius: 50%;
-        animation: float 10s linear infinite;
+@keyframes float {
+    from {
+        transform: translateY(110vh);
+        opacity: 0;
     }
-
-    @keyframes float {
-        from {
-            transform: translateY(110vh);
-            opacity: 0;
-        }
-        to {
-            transform: translateY(-10vh);
-            opacity: 1;
-        }
+    to {
+        transform: translateY(-10vh);
+        opacity: 1;
     }
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="panel">
     <h1>Stream Starting Soon</h1>
-    <div class="subtitle">Get Comfortable<span class="dots"></span></div>
+    <div class="sub">Sit Tight<span class="dots"></span></div>
 </div>
 
 <script>
-    // Floating ambient particles
-    for (let i = 0; i < 40; i++) {
-        const p = document.createElement("div");
-        p.className = "particle";
-        p.style.left = Math.random() * 100 + "vw";
-        p.style.animationDuration = 8 + Math.random() * 10 + "s";
-        p.style.opacity = Math.random();
-        document.body.appendChild(p);
-    }
+for (let i = 0; i < 50; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDuration = 8 + Math.random() * 12 + "s";
+    p.style.opacity = Math.random() * 0.6;
+    document.body.appendChild(p);
+}
 </script>
 
 </body>
