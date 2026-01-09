@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@800;900&display=swap');
 
 * {
     margin: 0;
@@ -19,146 +19,88 @@ body {
     height: 100vh;
     background: radial-gradient(
         circle at center,
-        #2c2c2c 0%,
-        #161616 55%,
-        #0d0d0d 100%
+        #1a1a1a 0%,
+        #0b0b0b 60%,
+        #000000 100%
     );
-    overflow: hidden;
-    perspective: 1200px;
-}
-
-/* depth fog */
-body::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-        circle at center,
-        rgba(255,255,255,0.06),
-        transparent 60%
-    );
-    pointer-events: none;
-}
-
-/* 3D scene wrapper */
-.scene {
-    position: absolute;
-    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    transform-style: preserve-3d;
-    animation: slowRotate 20s ease-in-out infinite alternate;
+    overflow: hidden;
 }
 
-@keyframes slowRotate {
-    from { transform: rotateX(4deg) rotateY(-6deg); }
-    to   { transform: rotateX(-4deg) rotateY(6deg); }
+/* subtle motion background */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        transparent 40%,
+        rgba(255,255,255,0.06) 50%,
+        transparent 60%
+    );
+    animation: sweep 12s linear infinite;
 }
 
-/* chrome text */
-.title {
-    position: relative;
-    font-size: clamp(3.5rem, 6vw, 5.5rem);
+@keyframes sweep {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(100%); }
+}
+
+.wrapper {
+    text-align: center;
+    transform: translateZ(0);
+}
+
+h1 {
+    font-size: clamp(3.8rem, 7vw, 6rem);
     font-weight: 900;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    transform: translateZ(80px);
+
+    /* readable chrome */
     background: linear-gradient(
         180deg,
         #ffffff,
-        #cfcfcf,
-        #9a9a9a,
-        #f5f5f5
+        #f0f0f0,
+        #d9d9d9
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+
+    /* THIS is what fixes readability */
+    -webkit-text-stroke: 2px rgba(0,0,0,0.85);
+
     text-shadow:
-        0 2px 3px rgba(0,0,0,0.6),
-        0 20px 60px rgba(0,0,0,0.8);
+        0 4px 10px rgba(0,0,0,0.9),
+        0 0 25px rgba(255,255,255,0.25);
+
+    animation: pulse 3s ease-in-out infinite;
 }
 
-/* extruded fake depth */
-.title::before,
-.title::after {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    color: rgba(0,0,0,0.4);
+@keyframes pulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.15); }
 }
 
-.title::before {
-    transform: translateZ(-12px);
-    filter: blur(2px);
-}
-
-.title::after {
-    transform: translateZ(-25px);
-    filter: blur(6px);
-    opacity: 0.6;
-}
-
-/* sub text */
-.subtitle {
-    margin-top: 24px;
-    text-align: center;
-    font-size: 1.05rem;
+.sub {
+    margin-top: 22px;
+    font-size: 1.1rem;
     letter-spacing: 0.4em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.65);
-    transform: translateZ(30px);
-}
-
-/* floating metallic shards */
-.shard {
-    position: absolute;
-    width: 160px;
-    height: 2px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,0.5),
-        transparent
-    );
-    animation: drift 14s linear infinite;
-}
-
-@keyframes drift {
-    from {
-        transform: translateX(-120vw) translateZ(-200px);
-    }
-    to {
-        transform: translateX(120vw) translateZ(200px);
-    }
+    color: #e0e0e0;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.8);
 }
 </style>
 </head>
 
 <body>
 
-<div class="scene">
-    <div>
-        <div class="title" data-text="Stream Starting Soon">
-            Stream Starting Soon
-        </div>
-        <div class="subtitle">
-            Lock In
-        </div>
-    </div>
+<div class="wrapper">
+    <h1>Stream Starting Soon</h1>
+    <div class="sub">Please Stand By</div>
 </div>
-
-<script>
-/* metallic shards */
-for (let i = 0; i < 12; i++) {
-    const s = document.createElement("div");
-    s.className = "shard";
-    s.style.top = Math.random() * 100 + "vh";
-    s.style.animationDuration = 10 + Math.random() * 10 + "s";
-    s.style.opacity = Math.random();
-    document.body.appendChild(s);
-}
-</script>
 
 </body>
 </html>
